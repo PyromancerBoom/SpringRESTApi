@@ -24,8 +24,6 @@ public class HelloController {
 
     @RequestMapping(value = "/person", method = POST)
     public Person createPerson(@RequestBody Person person){
-        person.createFile();
-        person.addPersontoFile();
         return person;
     }
 }

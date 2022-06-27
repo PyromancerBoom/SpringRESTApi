@@ -14,36 +14,5 @@ import java.io.PrintWriter;
 public class Person {
     @JsonProperty("age") Integer age;
     @JsonProperty("name") String name;
-
-    @JsonIgnore String path = "file.txt";
-    File file = new File(path);
-
-    public void createFile(){
-        try {
-
-            if (file.createNewFile()) {
-                System.out.println("File created: " + file.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-
-    public void addPersontoFile(){
-        JSONObject json = new JSONObject();
-        try {
-            json.put(name, age);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try (PrintWriter out = new PrintWriter(new FileWriter(path), true)) {
-            out.write(json.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    @JsonProperty("alias") String alias;
 }
