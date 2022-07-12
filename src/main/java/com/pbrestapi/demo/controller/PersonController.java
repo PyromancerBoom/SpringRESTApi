@@ -4,9 +4,10 @@ import com.pbrestapi.demo.model.Hello;
 import com.pbrestapi.demo.model.Person;
 import com.pbrestapi.demo.service.PersonService;
 import com.pbrestapi.demo.service.PersonServiceMemory;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -32,8 +33,14 @@ public class PersonController {
         return person;
     }
 
-    @RequestMapping(value = "/person", method = GET)
-    public Person showPerson(@RequestBody String name){
-        return personService.getPerson(name);
+    @RequestMapping(value = "/person/name", method = GET)
+    public ResponseEntity<Person> showPerson(@RequestParam String name){
+        return new ResponseEntity<Person>(personService.getPerson(name), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/person/{id}", method = GET)
+    public ResponseEntity<Person> showPersonbyid(@PathVariable Integer id){
+//        return personService.getPersonByID(id);
+        return new ResponseEntity<Person>(personService.getPersonByID(id), HttpStatus.OK);
     }
 }
