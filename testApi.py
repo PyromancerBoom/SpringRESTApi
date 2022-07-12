@@ -1,25 +1,37 @@
 from urllib import response
+import json
 import requests
 
 persons = [
-    {"name": "Anubhav", "age": 28},
+    {"name": "Thor", "age": 1000},
     {"name": "Priyansh", "age": 18},
-    {"name": "Harsh", "age": 20},
-    {"name": "Meitry", "age": 201},
+    {"name": "Odin", "age": 20},
+    {"name": "Mjolnir", "age": 100000},
     {"name": "Priyansh", "age": 19},
 ]
 
 postPerson = "http://localhost:8080/person"
-
-for person in persons:
-    response = requests.post(
-        url=postPerson, json=person)
-    print(response)
-
-# TODO : Get all person by id
-uid = [1, 2, 3, 4, 5, 6]
 getperson = "http://localhost:8080/person/"
+getId = [1, 2, 3, 4, 5, 6]
 
-for id in uid:
-    response = requests.get(url=getperson + str(id))
-    print(response.json)
+
+def postPersons():
+    for person in persons:
+        response = requests.post(url=postPerson, json=person)
+        print(response)
+
+
+def getPersons():
+    try:
+        for id in getId:
+            response = requests.get(url=getperson + str(id))
+            if(response.status_code >= 400):
+                print("Not Found")
+            else:
+                print(response.json())
+    except requests.JSONDecodeError:
+        print("Not found")
+
+
+postPersons()
+getPersons()
