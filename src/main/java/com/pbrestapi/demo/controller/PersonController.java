@@ -4,6 +4,7 @@ import com.pbrestapi.demo.model.Hello;
 import com.pbrestapi.demo.model.Person;
 import com.pbrestapi.demo.service.PersonService;
 import com.pbrestapi.demo.service.PersonServiceMemory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class PersonController {
 
-    PersonService personService = new PersonServiceMemory();
+    @Autowired
+    PersonService personService;
 
     @RequestMapping(value = "/hi", method = GET)
     public Hello test(){
@@ -35,7 +37,7 @@ public class PersonController {
 
     @RequestMapping(value = "/person/name", method = GET)
     public ResponseEntity<Person> showPerson(@RequestParam String name){
-        return new ResponseEntity<Person>(personService.getPerson(name), HttpStatus.OK);
+        return new ResponseEntity<Person>(personService.getPersonByName(name), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/person/{id}", method = GET)

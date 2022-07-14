@@ -6,7 +6,7 @@ public interface PersonService {
 
     void storePerson(Person person);
 
-    Person getPerson(String name);
+    Person getPersonByName(String name);
 
     Person getPersonByID(Integer id);
 }
