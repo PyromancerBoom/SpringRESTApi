@@ -3,7 +3,7 @@ package com.pbrestapi.demo.controller;
 import com.pbrestapi.demo.model.Hello;
 import com.pbrestapi.demo.model.Person;
 import com.pbrestapi.demo.service.PersonService;
-import com.pbrestapi.demo.service.PersonServiceMemory;
+import com.pbrestapi.demo.service.PersonServiceValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,9 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
+    @Autowired
+    PersonServiceValidation personServiceValidation;
+
     @RequestMapping(value = "/hi", method = GET)
     public Hello test(){
         return new Hello(101, "Hello World");
@@ -29,10 +32,15 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/person", method = POST)
-    public Person createPerson(@RequestBody Person person){
-        //TODO: Validate person.
-        personService.storePerson(person);
-        return person;
+    public ResponseEntity<Person> createPerson(@RequestBody Person person){
+        try{
+            personServiceValidation.validatePerson(person);
+            personService.storePerson(person);
+            return new ResponseEntity<Person>(person, HttpStatus.OK);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<Person>((Person) null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = "/person/name", method = GET)
