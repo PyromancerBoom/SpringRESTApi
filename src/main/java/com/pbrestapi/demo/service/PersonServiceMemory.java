@@ -11,8 +11,9 @@ public class PersonServiceMemory implements PersonService {
     PersonRepository personRepository;
 
     @Override
-    public void storePerson(Person person){
-        personRepository.add(person);
+    public Person storePerson(Person person){
+        // return personRepository.add(person);
+        return null;
     }
 
     @Override

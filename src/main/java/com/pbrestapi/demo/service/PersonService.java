@@ -4,7 +4,7 @@ import com.pbrestapi.demo.model.Person;
 
 public interface PersonService {
 
-    void storePerson(Person person);
+    Person storePerson(Person person);
 
     Person getPersonByName(String name);
 

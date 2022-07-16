@@ -35,8 +35,7 @@ public class PersonController {
     public ResponseEntity<Person> createPerson(@RequestBody Person person){
         try{
             personServiceValidation.validatePerson(person);
-            personService.storePerson(person);
-            return new ResponseEntity<Person>(person, HttpStatus.OK);
+            return new ResponseEntity<Person>(personService.storePerson(person), HttpStatus.OK);
         } catch (Exception e){
             System.out.println(e.getMessage());
             return new ResponseEntity<Person>((Person) null, HttpStatus.BAD_REQUEST);

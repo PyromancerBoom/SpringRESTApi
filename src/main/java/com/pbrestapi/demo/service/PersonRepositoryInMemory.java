@@ -5,21 +5,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class PersonRepositoryInMemory implements PersonRepository{
     private final List<Person> persons = new ArrayList<>();
     private Integer id = 0;
 
-    private void generateID(Person person){
-        this.id++;
-        person.setUid(this.id);
+    private Integer generateID(Person person){
+        return this.id++;
     }
 
-    public void add(Person person){
-        generateID(person);
+    public Person add(Person person){
+        id = generateID(person);
+        person.setUid(this.id);
         persons.add(person);
+        return person;
     }
 
     public Person getByName(String name) {
