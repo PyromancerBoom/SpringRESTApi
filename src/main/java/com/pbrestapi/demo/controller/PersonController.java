@@ -95,4 +95,12 @@ public class PersonController {
     public ResponseEntity<?> getAllNodes() {
         return new ResponseEntity<>(nodeRepository.getAllNodes(), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/node/connection", method = POST)
+    public ResponseEntity<?> createConnections(@RequestBody Map<String, String> nodeMapping) {
+        nodeMapping.keySet().forEach(key -> {
+            nodeRepository.getNodeById(key).addConnectionTo(nodeRepository.getNodeById(nodeMapping.get(key)));
+        });
+        return new ResponseEntity<>(nodeRepository.getAllNodes(), HttpStatus.OK);
+    }
 }
