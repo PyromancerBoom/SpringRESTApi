@@ -9,32 +9,37 @@ import java.util.Set;
 @Data
 public class Node {
 
-    private Map<String, Integer> data;
+    private Integer data;
     private String id;
-    Set<String> connectedNodeIds = new HashSet<>();
+    private Set<Node> connectedNodeIds = new HashSet<>();
 
-    public Node(Map<String, Integer> data) throws Exception {
-        if(data == null || data.isEmpty()){
+    public Node(Integer data) throws Exception {
+        if(data == null ){
             throw new Exception("Node must have data!");
         }
         this.data = data;
     }
 
-    public Node(Map<String, Integer> data, String id) throws Exception {
-        if(data == null || data.isEmpty()){
+    public Node(Integer data, String id) throws Exception {
+        if(data == null ){
             throw new Exception("Node must have data!");
         }
         this.data = data;
         this.id = id;
     }
 
+    public Set<Node> getConnectedNodeIds() {
+        return connectedNodeIds;
+    }
+
     public void addConnectionTo(Node node){
-        this.connectedNodeIds.add(node.getId());
+        this.connectedNodeIds.add(node);
     }
 
     public void twoWayConnectionTo(Node node){
-        this.connectedNodeIds.add(node.getId());
+        this.connectedNodeIds.add(node);
         node.addConnectionTo(this);
     }
+
 
 }

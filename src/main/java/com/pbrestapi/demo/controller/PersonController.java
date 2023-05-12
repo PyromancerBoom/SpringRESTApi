@@ -61,7 +61,7 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/node", method = POST)
-    public ResponseEntity<?> addNode(@RequestBody Map<String, Integer> data){
+    public ResponseEntity<?> addNode(@RequestBody Integer data){
         try{
             Node node = new Node(data, nodeRepository.generateNodeId());
             nodeRepository.storeNode(node);
@@ -73,13 +73,14 @@ public class PersonController {
     }
 
     @RequestMapping(value = "/node/{id}", method = POST)
-    public ResponseEntity<?> addNode(@RequestBody Map<String, Integer> data, @PathVariable String id){
+    public ResponseEntity<?> addNode(@RequestBody Integer data, @PathVariable String id){
         try{
             Node node;
             if(nodeRepository.idExists(id)){
                 node = nodeRepository.getNodeById(id);
-                node.getData().clear();
-                node.getData().putAll(data);
+                node.setData(data);
+//                node.getData().clear();
+//                node.getData().putAll(data);
             } else {
                 node = new Node(data, id);
                 nodeRepository.storeNode(node);
@@ -102,5 +103,11 @@ public class PersonController {
             nodeRepository.getNodeById(key).addConnectionTo(nodeRepository.getNodeById(nodeMapping.get(key)));
         });
         return new ResponseEntity<>(nodeRepository.getAllNodes(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/node/dfs", method = GET)
+    public ResponseEntity<?> depthFirstSearch(@RequestBody String id) {
+        nodeRepository.dfs(nodeRepository.getNodeById(id));
+        return new ResponseEntity<>("DFS Done", HttpStatus.OK);
     }
 }
