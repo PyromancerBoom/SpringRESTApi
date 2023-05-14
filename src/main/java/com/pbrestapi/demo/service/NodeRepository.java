@@ -7,8 +7,9 @@ import java.util.*;
 
 @Service
 public class NodeRepository {
-    Map<String, Node> nodeStorage = new HashMap<>();
-    Integer nodeIdCounter = 0;
+    private Map<String, Node> nodeStorage = new HashMap<>();
+    private Integer nodeIdCounter = 0;
+    private
 
     public NodeRepository() throws Exception {
         Node node0 = new Node(1, "0");
@@ -34,7 +35,6 @@ public class NodeRepository {
         nodeStorage.put("5",node5);
     }
 
-
     public void storeNode(Node node){
         nodeStorage.put(node.getId(), node);
     }
@@ -57,16 +57,44 @@ public class NodeRepository {
 
     public void dfs(Node node){
         Set<String> visitedNodes = new HashSet<>();
-        helper(node, visitedNodes);
+        helperDFS(node, visitedNodes);
     }
 
-    private void helper(Node node, Set<String> visitedNodes) {
+    private void helperDFS(Node node, Set<String> visitedNodes) {
         System.out.println(node.getId());
         visitedNodes.add(node.getId());
         for (Node subNode : node.getConnectedNodeIds()) {
             if(!visitedNodes.contains(subNode.getId())) {
-                helper(subNode, visitedNodes);
+                helperDFS(subNode, visitedNodes);
             }
         }
+    }
+
+    private static Node makeBSThelper(Integer[] nums, int start, int end) throws Exception {
+        if (start > end) {
+            return null;
+        }
+
+        int mid = (start + end) / 2;
+        Node rootNode = new Node(nums[mid]);
+        rootNode.setLeft(makeBSThelper(nums, start, mid-1));
+        rootNode.setRight(makeBSThelper(nums, mid+1, end));
+
+        return rootNode;
+    }
+
+    public Node sortedArrayToBST(Integer[] nums) throws Exception {
+        return makeBSThelper(nums, 0, nums.length - 1);
+    }
+
+    public void inOrderTraversal(Node node) {
+        if (node == null)
+            return;
+        // traverse the left child
+        inOrderTraversal(node.getLeft());
+        // traverse the root node
+        System.out.print(node.getId() + "->");
+        // traverse the right child
+        inOrderTraversal(node.getRight());
     }
 }

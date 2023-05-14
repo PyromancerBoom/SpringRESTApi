@@ -110,4 +110,10 @@ public class PersonController {
         nodeRepository.dfs(nodeRepository.getNodeById(id));
         return new ResponseEntity<>("DFS Done", HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/node/bst", method = GET)
+    public ResponseEntity<?> binarySearchTree(@RequestBody Integer[] arr) throws Exception {
+        nodeRepository.inOrderTraversal(nodeRepository.sortedArrayToBST(arr));
+        return new ResponseEntity<>("BST Made", HttpStatus.OK);
+    }
 }
